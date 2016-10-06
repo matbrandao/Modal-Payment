@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Modal Payment</string>
+    <string name="requisition_error">Erro ao processar sua requisição.</string>
+    <string name="price_error">Não foi possível retribuir o valor.</string>
 </resources>

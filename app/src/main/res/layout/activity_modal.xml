@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:background="@color/green"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="PAGAMENTO"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/blue"
+        android:padding="24dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:text="A PAGAR"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/total_price_text"
+                android:layout_alignParentRight="true"
+                android:textSize="12sp"
+                android:textColor="@android:color/white"
+                android:text="R$ 1.100,00"
+                tools:text="R$ 1.100,00"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:textSize="18sp"
+                android:text="R$"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/amount_left_text"
+                android:textColor="@color/green"
+                android:layout_marginLeft="10dp"
+                android:textSize="40sp"
+                android:text="1.100,00"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/amount_paying_edit_text"
+            android:inputType="number"
+            android:textSize="35sp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:fontFamily="sans-serif-light"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/money_button"
+                android:text="DINHEIRO"
+                android:layout_marginRight="8dp"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:text="CARTÃO"
+                android:textColor="@android:color/white"
+                android:id="@+id/card_button"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:id="@+id/money_paid_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:text="Dinheiro"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/amount_paid_money_text"
+                android:layout_marginLeft="32dp"
+                android:text="R$ 600"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginRight="64dp"
+            android:layout_marginLeft="64dp"
+            android:background="#CCC"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        android:id="@+id/credit_paid_layout">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="32dp"
+                android:text="Crédito"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/amount_paid_credit_text"
+                android:layout_marginLeft="32dp"
+                android:text="R$ 600"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_marginRight="64dp"
+            android:layout_marginLeft="64dp"
+            android:background="#CCC"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cancel_text"
+                android:padding="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:textColor="@color/blue"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:layout_marginRight="5dp"
+                android:text="CANCELAR"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ok_text"
+                android:padding="8dp"
+                android:enabled="false"
+                android:textColor="@color/blue"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="sans-serif-condensed"
+                android:textStyle="bold"
+                android:text="OK"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
