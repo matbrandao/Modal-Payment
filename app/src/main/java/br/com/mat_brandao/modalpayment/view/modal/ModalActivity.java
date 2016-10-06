@@ -2,6 +2,8 @@ package br.com.mat_brandao.modalpayment.view.modal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
@@ -34,14 +36,10 @@ public class ModalActivity extends BaseActivity implements ModalView {
     TextView cancelText;
     @Bind(R.id.ok_text)
     TextView okText;
-    @Bind(R.id.amount_paid_money_text)
-    TextView amountPaidMoneyText;
-    @Bind(R.id.money_paid_layout)
-    LinearLayout moneyPaidLayout;
-    @Bind(R.id.amount_paid_credit_text)
-    TextView amountPaidCreditText;
-    @Bind(R.id.credit_paid_layout)
-    LinearLayout creditPaidLayout;
+    @Bind(R.id.payments_recycler)
+    RecyclerView paymentsRecycler;
+    @Bind(R.id.buttons_layout)
+    LinearLayout buttonsLayout;
 
     private ModalPresenterImpl mPresenter;
 
@@ -63,6 +61,9 @@ public class ModalActivity extends BaseActivity implements ModalView {
         lp.height = WindowManager.LayoutParams.MATCH_PARENT;
         getWindow().setAttributes(lp);
 
+        paymentsRecycler.setHasFixedSize(true);
+        paymentsRecycler.setLayoutManager(new LinearLayoutManager(this));
+
         amountPayingEditText.addTextChangedListener(MaskUtil.insertMoney(amountPayingEditText));
 
         mPresenter = new ModalPresenterImpl(this, this);
@@ -81,6 +82,11 @@ public class ModalActivity extends BaseActivity implements ModalView {
     @OnClick(R.id.cancel_text)
     void onCancelTextClick() {
         finishActivity();
+    }
+
+    @OnClick(R.id.ok_text)
+    void onOkTextClick() {
+        mPresenter.onOkTextClick();
     }
 
     @Override
@@ -131,5 +137,15 @@ public class ModalActivity extends BaseActivity implements ModalView {
     @Override
     public void setAmountLeft(String amountLeft) {
         amountLeftText.setText(amountLeft);
+    }
+
+    @Override
+    public void setPaymentsAdater(PaymentsAdapter adater) {
+        paymentsRecycler.setAdapter(adater);
+    }
+
+    @Override
+    public void enableOkButton() {
+        okText.setEnabled(true);
     }
 }

@@ -6,4 +6,6 @@ public interface ModalPresenter extends BasePresenter {
     void onMoneyButtonClick(String amount);
 
     void onCardButtonClick(String amount);
+
+    void onOkTextClick();
 }

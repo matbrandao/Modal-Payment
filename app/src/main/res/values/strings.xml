@@ -3,4 +3,6 @@
     <string name="requisition_error">Erro ao processar sua requisição.</string>
     <string name="price_error">Não foi possível retribuir o valor.</string>
     <string name="insert_value">Insira o valor a ser pago</string>
+    <string name="error_greater_value">Valor ultrapassa o preço final</string>
+    <string name="paying">Efetuando pagamento</string>
 </resources>

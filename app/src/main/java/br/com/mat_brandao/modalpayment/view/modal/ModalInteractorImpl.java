@@ -28,8 +28,20 @@ public class ModalInteractorImpl implements ModalInteractor {
     }
 
     @Override
-    public String formatPrice(float price) {
-        return String.format(Locale.getDefault(), "R$ %.2f", price);
+    public String formatPrice(float price, boolean includeSymbol) {
+        String result = "";
+        if (includeSymbol) {
+            result = String.format(Locale.getDefault(), "R$ %.2f", Math.abs(price));
+            if (price < 0) {
+                result += " (Troco)";
+            }
+        } else {
+                result = String.format(Locale.getDefault(), "%.2f", Math.abs(price));
+                if (price < 0) {
+                    result += " (Troco)";
+                }
+        }
+        return result;
     }
 
     @Override

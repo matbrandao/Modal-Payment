@@ -5,7 +5,7 @@ import android.content.Intent;
 public interface ModalInteractor {
     boolean isIntentValid(Intent intent);
 
-    String formatPrice(float price);
+    String formatPrice(float price, boolean includeSymbol);
 
     float getPriceFromString(String amount);
 }

@@ -12,4 +12,8 @@ interface ModalView extends BaseView {
     void setAmountPayingText(String price);
 
     void setAmountLeft(String amountLeft);
+
+    void setPaymentsAdater(PaymentsAdapter adater);
+
+    void enableOkButton();
 }
