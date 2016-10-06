@@ -6,4 +6,6 @@ public interface ModalInteractor {
     boolean isIntentValid(Intent intent);
 
     String formatPrice(float price);
+
+    float getPriceFromString(String amount);
 }

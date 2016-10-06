@@ -31,4 +31,9 @@ public class ModalInteractorImpl implements ModalInteractor {
     public String formatPrice(float price) {
         return String.format(Locale.getDefault(), "R$ %.2f", price);
     }
+
+    @Override
+    public float getPriceFromString(String amount) {
+        return Float.valueOf(amount.replace("R$ ", "").replace(".", "").replace(",", "."));
+    }
 }

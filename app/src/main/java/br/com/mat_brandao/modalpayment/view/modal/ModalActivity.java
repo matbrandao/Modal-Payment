@@ -68,6 +68,16 @@ public class ModalActivity extends BaseActivity implements ModalView {
         mPresenter = new ModalPresenterImpl(this, this);
     }
 
+    @OnClick(R.id.money_button)
+    void onMoneyButtonClick() {
+        mPresenter.onMoneyButtonClick(amountPayingEditText.getText().toString());
+    }
+
+    @OnClick(R.id.card_button)
+    void onCardButtonClick() {
+        mPresenter.onCardButtonClick(amountPayingEditText.getText().toString());
+    }
+
     @OnClick(R.id.cancel_text)
     void onCancelTextClick() {
         finishActivity();

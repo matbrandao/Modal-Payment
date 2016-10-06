@@ -10,7 +10,7 @@ public class ModalPresenterImpl implements ModalPresenter {
     private ModalInteractorImpl mInteractor;
     private Context mContext;
     private ModalView mView;
-    private float mPrice;
+    private float mTotalPrice;
 
     @Override
     public void onResume() {
@@ -33,22 +33,22 @@ public class ModalPresenterImpl implements ModalPresenter {
         mView = view;
 
 //        handleIntent
-        mPrice = 1100.0f;
-        mView.setPriceText(mInteractor.formatPrice(mPrice));
-        mView.setAmountLeft(mInteractor.formatPrice(mPrice));
-        mView.setAmountPayingText(String.valueOf(mPrice));
+        mTotalPrice = 1100.0f;
+        mView.setPriceText(mInteractor.formatPrice(mTotalPrice));
+        mView.setAmountLeft(mInteractor.formatPrice(mTotalPrice));
+        mView.setAmountPayingText(String.valueOf(mTotalPrice));
     }
 
     private void handleIntent() {
         Intent intent = mView.getActivityIntent();
         if (mInteractor.isIntentValid(intent)) {
             if (intent.hasExtra(ModalInteractorImpl.PRICE_INTENT_KEY)) {
-                mPrice = intent.getFloatExtra(ModalInteractorImpl.PRICE_INTENT_KEY, 0);
-                if (mPrice == 0) {
+                mTotalPrice = intent.getFloatExtra(ModalInteractorImpl.PRICE_INTENT_KEY, 0);
+                if (mTotalPrice == 0) {
                     mView.showToast(mContext.getString(R.string.price_error));
                     return;
                 }
-                mView.setPriceText(mInteractor.formatPrice(mPrice));
+                mView.setPriceText(mInteractor.formatPrice(mTotalPrice));
             } else {
                 mView.showToast(mContext.getString(R.string.price_error));
             }
@@ -56,5 +56,21 @@ public class ModalPresenterImpl implements ModalPresenter {
             mView.showToast(mContext.getString(R.string.requisition_error));
             mView.finishActivity();
         }
+    }
+
+    @Override
+    public void onMoneyButtonClick(String amount) {
+        float amountPaid = mInteractor.getPriceFromString(amount);
+        if (amountPaid > 0) {
+            mTotalPrice -= amountPaid;
+//            mView.setAmountLeft(mTotalPrice);
+        } else {
+            mView.showToast(mContext.getString(R.string.insert_value));
+        }
+    }
+
+    @Override
+    public void onCardButtonClick(String amount) {
+
     }
 }
