@@ -2,6 +2,7 @@ package br.com.mat_brandao.modalpayment.view.modal;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,12 @@ public class ModalPresenterImpl implements ModalPresenter {
         mContext = context;
         mView = view;
 
-        mTotalPrice = 100.0f;
-        mAmountLeft = 100.0f;
+        handleIntent();
+    }
+
+    private void init(float value) {
+        mTotalPrice = value;
+        mAmountLeft = value;
         mView.setPriceText(mInteractor.formatPrice(mTotalPrice, true));
         mView.setAmountLeft(mInteractor.formatPrice(mAmountLeft, false));
         mView.setAmountPayingText(String.valueOf(mTotalPrice));
@@ -53,19 +58,46 @@ public class ModalPresenterImpl implements ModalPresenter {
         Intent intent = mView.getActivityIntent();
         if (mInteractor.isIntentValid(intent)) {
             if (intent.hasExtra(ModalInteractorImpl.PRICE_INTENT_KEY)) {
-                mTotalPrice = intent.getFloatExtra(ModalInteractorImpl.PRICE_INTENT_KEY, 0);
-                if (mTotalPrice == 0) {
-                    mView.showToast(mContext.getString(R.string.price_error));
+                float value = intent.getFloatExtra(ModalInteractorImpl.PRICE_INTENT_KEY, 0);
+                if (value == 0) {
+                    showErrorAndFinish(mContext.getString(R.string.price_error));
                     return;
                 }
-                mView.setPriceText(mInteractor.formatPrice(mTotalPrice, false));
+                init(value);
+            } else if (intent.hasExtra(Intent.EXTRA_TEXT)) {
+                try {
+                    float value = Float.valueOf(intent.getStringExtra(Intent.EXTRA_TEXT));
+                    if (value == 0) {
+                        showErrorAndFinish(mContext.getString(R.string.price_error));
+                        return;
+                    }
+                    init(value);
+                } catch (Exception e) {
+                    showErrorAndFinish(mContext.getString(R.string.price_error));
+                }
             } else {
-                mView.showToast(mContext.getString(R.string.price_error));
+                showErrorAndFinish(mContext.getString(R.string.price_error));
             }
         } else {
-            mView.showToast(mContext.getString(R.string.requisition_error));
-            mView.finishActivity();
+            showErrorAndFinish(mContext.getString(R.string.requisition_error));
         }
+    }
+
+    private void showErrorAndFinish(String error) {
+        mView.showToast(error);
+        mView.finishActivity();
+    }
+
+    private void updateUi() {
+        mPaymentAdapter.mCardCounter = 0;
+        mPaymentAdapter.notifyDataSetChanged();
+        mView.setAmountLeft(mInteractor.formatPrice(mAmountLeft, false));
+    }
+
+    private void setFinishedPayment() {
+        canPayMore = false;
+        mView.enableOkButton();
+        mAmountLeft = 0;
     }
 
     @Override
@@ -77,24 +109,15 @@ public class ModalPresenterImpl implements ModalPresenter {
                     mView.showToast(mContext.getString(R.string.error_greater_value));
                 }  else {
                     mAmountLeft -= amountPaid;
-                    Payment oldPayment = null;
-                    for (Payment payment : mPaymentList) {
-                        if (payment.getPaymentType().equals(Payment.MONEY_TYPE)) {
-                            oldPayment = payment;
-                        }
-                    }
+                    Payment oldPayment = mInteractor.getMoneyPayment(mPaymentList);
                     if (oldPayment != null) {
                         oldPayment.setPrice(oldPayment.getPrice() + amountPaid);
                     } else {
                         mPaymentList.add(new Payment(Payment.MONEY_TYPE, amountPaid));
                     }
-                    mPaymentAdapter.mCardCounter = 0;
-                    mPaymentAdapter.notifyDataSetChanged();
-                    mView.setAmountLeft(mInteractor.formatPrice(mAmountLeft, false));
+                    updateUi();
                     if (mAmountLeft <= 0) {
-                        canPayMore = false;
-                        mView.enableOkButton();
-                        mAmountLeft = 0;
+                        setFinishedPayment();
                     }
                 }
             } else {
@@ -115,13 +138,9 @@ public class ModalPresenterImpl implements ModalPresenter {
                 } else {
                     mAmountLeft -= amountPaid;
                     mPaymentList.add(new Payment(Payment.CARD_TYPE, amountPaid));
-                    mPaymentAdapter.mCardCounter = 0;
-                    mPaymentAdapter.notifyDataSetChanged();
-                    mView.setAmountLeft(mInteractor.formatPrice(mAmountLeft, false));
+                    updateUi();
                     if (mAmountLeft <= 0) {
-                        canPayMore = false;
-                        mView.enableOkButton();
-                        mAmountLeft = 0;
+                        setFinishedPayment();
                     }
                 }
             } else {

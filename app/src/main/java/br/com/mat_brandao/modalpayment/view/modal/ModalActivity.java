@@ -22,6 +22,7 @@ import butterknife.OnClick;
 
 public class ModalActivity extends BaseActivity implements ModalView {
     private static final String TAG = "ModalActivity";
+
     @Bind(R.id.total_price_text)
     TextView totalPriceText;
     @Bind(R.id.amount_left_text)
